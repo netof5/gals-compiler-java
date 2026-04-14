@@ -1,0 +1,65 @@
+# =========================
+# Java - arquivos compilados
+# =========================
+*.class
+*.jar
+*.war
+*.ear
+
+# =========================
+# Pastas de build
+# =========================
+bin/
+build/
+out/
+target/
+
+# Pastas específicas do projeto
+parser-bin/
+ide/bin/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# IntelliJ IDEA
+# =========================
+.idea/
+*.iml
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# Eclipse
+# =========================
+.project
+.classpath
+.settings/
+
+# =========================
+# NetBeans
+# =========================
+nbproject/private/
+build/
+dist/
+
+# =========================
+# Sistema Operacional
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Arquivos temporários
+# =========================
+*.tmp
+*.temp
+*.swp
+*~
+
