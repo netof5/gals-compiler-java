@@ -171,8 +171,9 @@ Depois execute:
 
 ---
 
-## Autor
+## Autores
 
-### Candido Fachini Neto
+**Candido Fachini Neto**  
+**Garrik Bez Schoepping**
 
 **Projeto acadêmico desenvolvido para a disciplina de Compiladores.**
