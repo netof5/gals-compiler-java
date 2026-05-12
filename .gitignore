@@ -63,3 +63,7 @@ desktop.ini
 *.swp
 *~
 
+# =========================
+# Arquivos específicos
+# =========================
+codeExamples.txt

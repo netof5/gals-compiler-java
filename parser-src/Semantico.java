@@ -1,9 +1,9 @@
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Semantico implements Constants
 {
-    private Map<String, String> tabelaSimbolos = new HashMap<>();
+    private Map<String, String> tabelaSimbolos = new LinkedHashMap<>();
 
     private String tipoAtual;
 
@@ -58,5 +58,13 @@ public class Semantico implements Constants
         }
 
         System.out.println("Identificador usado: " + nome + " - Tipo: " + tabelaSimbolos.get(nome));
+    }
+
+    // =========================
+    // RETORNA A TABELA
+    // =========================
+    public Map<String, String> getTabelaSimbolos()
+    {
+        return tabelaSimbolos;
     }
 }

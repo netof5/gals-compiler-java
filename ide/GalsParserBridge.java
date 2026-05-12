@@ -3,6 +3,8 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class GalsParserBridge {
 
@@ -10,6 +12,8 @@ public class GalsParserBridge {
     private final Class<?> lexicoClass;
     private final Class<?> sintaticoClass;
     private final Class<?> semanticoClass;
+
+    private Map<String, String> tabelaSimbolos;
 
     public GalsParserBridge() throws Exception {
         Path parserDir = Path.of("parser-bin");
@@ -29,6 +33,8 @@ public class GalsParserBridge {
 
             Method parseMethod = sintaticoClass.getMethod("parse", lexicoClass, semanticoClass);
             parseMethod.invoke(sintatico, lexico, semantico);
+
+            tabelaSimbolos = carregarTabelaSimbolos(semantico);
 
             return "Compilação concluída com sucesso.\nNenhum erro sintático encontrado.";
 
@@ -79,6 +85,26 @@ public class GalsParserBridge {
         }
     }
 
+    private Map<String, String> carregarTabelaSimbolos(Object semantico) throws Exception {
+        Method metodoTabela = semanticoClass.getMethod("getTabelaSimbolos");
+        Object retorno = metodoTabela.invoke(semantico);
+
+        Map<String, String> tabelaConvertida = new LinkedHashMap<>();
+
+        if (retorno instanceof Map<?, ?> tabela) {
+            for (Map.Entry<?, ?> entry : tabela.entrySet()) {
+                if (entry.getKey() instanceof String && entry.getValue() instanceof String) {
+                    tabelaConvertida.put(
+                            (String) entry.getKey(),
+                            (String) entry.getValue()
+                    );
+                }
+            }
+        }
+
+        return tabelaConvertida;
+    }
+
     private Object criarLexico(String codigo) throws Exception {
         try {
             Constructor<?> c = lexicoClass.getDeclaredConstructor(String.class);
@@ -119,5 +145,10 @@ public class GalsParserBridge {
         trecho = trecho.replace("\n", "\\n");
 
         return "\"" + trecho + "\"";
+    }
+
+    public Map<String, String> getTabelaSimbolos()
+    {
+        return tabelaSimbolos;
     }
 }
