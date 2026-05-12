@@ -3,7 +3,7 @@ import java.util.Map;
 
 public class Semantico implements Constants
 {
-    private Map<String, String> tabelaSimbolos = new LinkedHashMap<>();
+    private Map<String, Simbolo> tabelaSimbolos = new LinkedHashMap<>();
 
     private String tipoAtual;
 
@@ -40,7 +40,7 @@ public class Semantico implements Constants
             );
         }
 
-        tabelaSimbolos.put(nome, tipoAtual);
+        tabelaSimbolos.put(nome, new Simbolo(tipoAtual));
 
         System.out.println("Inserido na tabela: " + nome + " - Tipo: " + tipoAtual);
     }
@@ -57,13 +57,16 @@ public class Semantico implements Constants
             );
         }
 
-        System.out.println("Identificador usado: " + nome + " - Tipo: " + tabelaSimbolos.get(nome));
+        Simbolo simbolo = tabelaSimbolos.get(nome);
+        simbolo.setUsado(true);
+
+        System.out.println("Identificador usado: " + nome + " - Tipo: " + simbolo.getTipo());
     }
 
     // =========================
     // RETORNA A TABELA
     // =========================
-    public Map<String, String> getTabelaSimbolos()
+    public Map<String, Simbolo> getTabelaSimbolos()
     {
         return tabelaSimbolos;
     }

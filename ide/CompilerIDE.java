@@ -110,10 +110,7 @@ public class CompilerIDE extends JFrame {
         // =========================
         // TABELA DE SÍMBOLOS
         // =========================
-        String[] colunas = {
-                "Identificador",
-                "Tipo"
-        };
+        String[] colunas = {"Identificador", "Tipo", "Status"};
 
         modeloTabela = new DefaultTableModel(colunas, 0);
 
@@ -139,11 +136,7 @@ public class CompilerIDE extends JFrame {
         // SPLIT VERTICAL
         // Código + saída
         // =========================
-        JSplitPane splitVertical = new JSplitPane(
-                JSplitPane.VERTICAL_SPLIT,
-                editorScroll,
-                outputScroll
-        );
+        JSplitPane splitVertical = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editorScroll, outputScroll);
 
         splitVertical.setDividerLocation(420);
         splitVertical.setResizeWeight(0.7);
@@ -152,11 +145,7 @@ public class CompilerIDE extends JFrame {
         // SPLIT HORIZONTAL
         // IDE + tabela
         // =========================
-        JSplitPane splitHorizontal = new JSplitPane(
-                JSplitPane.HORIZONTAL_SPLIT,
-                splitVertical,
-                tabelaScroll
-        );
+        JSplitPane splitHorizontal = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitVertical, tabelaScroll);
 
         splitHorizontal.setDividerLocation(850);
         splitHorizontal.setResizeWeight(0.8);
@@ -183,9 +172,7 @@ public class CompilerIDE extends JFrame {
         // =========================
         // PAINEL INFERIOR
         // =========================
-        JPanel painelInferior = new JPanel(
-                new FlowLayout(FlowLayout.RIGHT)
-        );
+        JPanel painelInferior = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         painelInferior.setBackground(fundoJanela);
 
@@ -194,17 +181,13 @@ public class CompilerIDE extends JFrame {
         // =========================
         // CABEÇALHO
         // =========================
-        JLabel titulo = new JLabel(
-                "Ambiente de Desenvolvimento Integrado - Compilador"
-        );
+        JLabel titulo = new JLabel("Ambiente de Desenvolvimento Integrado - Compilador");
 
         titulo.setFont(new Font("SansSerif", Font.BOLD, 18));
 
         titulo.setForeground(new Color(35, 35, 35));
 
-        JLabel subtitulo = new JLabel(
-                "Digite o código-fonte, execute a análise sintática e visualize as mensagens."
-        );
+        JLabel subtitulo = new JLabel("Digite o código-fonte, execute a análise sintática e visualize as mensagens.");
 
         subtitulo.setFont(new Font("SansSerif", Font.PLAIN, 13));
 
@@ -238,11 +221,9 @@ public class CompilerIDE extends JFrame {
 
         try {
 
-            GalsParserBridge parser =
-                    new GalsParserBridge();
+            GalsParserBridge parser = new GalsParserBridge();
 
-            String resultado =
-                    parser.analisar(codigo);
+            String resultado = parser.analisar(codigo);
 
             outputArea.setText(resultado);
 
@@ -254,15 +235,28 @@ public class CompilerIDE extends JFrame {
             // =========================
             // PREENCHE TABELA
             // =========================
-            Map<String, String> tabela =
-                    parser.getTabelaSimbolos();
+            Map<String, Simbolo> tabela = parser.getTabelaSimbolos();
 
             if (tabela != null) {
-                for (Map.Entry<String, String> entry : tabela.entrySet()) {
+
+                for (Map.Entry<String, Simbolo> entry : tabela.entrySet()) {
+
+                    Simbolo simbolo = entry.getValue();
+
+                    String status;
+
+                    if(simbolo.isUsado()) {
+                        status = "Usada";
+                    }
+                    else {
+                        status = "Não usada";
+                    }
+
                     modeloTabela.addRow(
                             new Object[]{
                                     entry.getKey(),
-                                    entry.getValue()
+                                    simbolo.getTipo(),
+                                    status
                             }
                     );
                 }

@@ -13,7 +13,7 @@ public class GalsParserBridge {
     private final Class<?> sintaticoClass;
     private final Class<?> semanticoClass;
 
-    private Map<String, String> tabelaSimbolos;
+    private Map<String, Simbolo> tabelaSimbolos;
 
     public GalsParserBridge() throws Exception {
         Path parserDir = Path.of("parser-bin");
@@ -85,19 +85,16 @@ public class GalsParserBridge {
         }
     }
 
-    private Map<String, String> carregarTabelaSimbolos(Object semantico) throws Exception {
+    private Map<String, Simbolo> carregarTabelaSimbolos(Object semantico) throws Exception {
         Method metodoTabela = semanticoClass.getMethod("getTabelaSimbolos");
         Object retorno = metodoTabela.invoke(semantico);
 
-        Map<String, String> tabelaConvertida = new LinkedHashMap<>();
+        Map<String, Simbolo> tabelaConvertida = new LinkedHashMap<>();;
 
         if (retorno instanceof Map<?, ?> tabela) {
             for (Map.Entry<?, ?> entry : tabela.entrySet()) {
-                if (entry.getKey() instanceof String && entry.getValue() instanceof String) {
-                    tabelaConvertida.put(
-                            (String) entry.getKey(),
-                            (String) entry.getValue()
-                    );
+                if (entry.getKey() instanceof String && entry.getValue() instanceof Simbolo) {
+                    tabelaConvertida.put((String) entry.getKey(), (Simbolo) entry.getValue());
                 }
             }
         }
@@ -147,7 +144,7 @@ public class GalsParserBridge {
         return "\"" + trecho + "\"";
     }
 
-    public Map<String, String> getTabelaSimbolos()
+    public Map<String, Simbolo> getTabelaSimbolos()
     {
         return tabelaSimbolos;
     }
